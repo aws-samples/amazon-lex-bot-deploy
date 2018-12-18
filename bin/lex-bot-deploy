@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+
+from amazon_lex_bot_deploy import amazon_lex_bot_deploy
+import argparse
+import sys
+import logging
+
+logging.basicConfig(stream=sys.stdout)
+logger = logging.getLogger(__name__)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--alias', required=False,
+                    help='lex alias to deploy to, e.g. test or dev or qa', default='$LATEST')
+parser.add_argument('--region', required=False, help='AWS region to deploy to')
+parser.add_argument('--lambda-endpoint', required=False,
+                    help='function ARN in the format: '
+                         'arn:aws:lambda:<region>:<account-id>:function:<function-name>:<function-alias>')
+
+logging_group = parser.add_mutually_exclusive_group(required=False)
+logging_group.add_argument('--verbose', required=False, help='verbose logging (>=DEBUG)', action='store_true')
+logging_group.add_argument('--quiet', required=False, help='quiet (>=WARNING)', action='store_true')
+
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument('-s', '--schema-file', help='schema file path')
+group.add_argument('--example', help='use one of the test examples',
+                   choices=["BookTrip", "OrderFlowers", "ScheduleAppointment"])
+
+args = parser.parse_args()
+
+schema_file = args.schema_file
+
+region = args.region
+lambda_endpoint = args.lambda_endpoint
+lex_alias = args.alias
+log_level = 'INFO'
+if args.verbose:
+    log_level = 'DEBUG'
+elif args.quiet:
+    log_level = 'WARNING'
+
+try:
+    amazon_lex_bot_deploy.lex_deploy(lex_schema_file=schema_file, lex_alias=lex_alias, lambda_endpoint=lambda_endpoint,
+                                     region=region, log_level=log_level, example=args.example)
+except Exception as e:
+    logger.error(e)
+    sys.exit(1)

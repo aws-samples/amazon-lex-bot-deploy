@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+
+from amazon_lex_bot_deploy import amazon_lex_bot_deploy
+import argparse
+import sys
+import logging
+
+
+DEFAULT_REGION = 'us-east-1'
+
+logging.basicConfig(stream=sys.stdout)
+logger = logging.getLogger(__name__)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--region', required=False, help='AWS region to pull from')
+parser.add_argument('--version', required=False, help='Lex Bot version', default='1')
+parser.add_argument('--lex-bot-name', required=True, help='Lex bot name')
+logging_group = parser.add_mutually_exclusive_group(required=False)
+logging_group.add_argument('--verbose', required=False, help='verbose logging (>=DEBUG)', action='store_true')
+logging_group.add_argument('--quiet', required=False, help='quiet (>=WARNING)', action='store_true')
+
+args = parser.parse_args()
+
+region = args.region
+version = args.version
+lex_bot_name = args.lex_bot_name
+
+log_level = 'INFO'
+if args.verbose:
+    log_level = 'DEBUG'
+elif args.quiet:
+    log_level = 'WARNING'
+
+try:
+    amazon_lex_bot_deploy.lex_export_bot(name=lex_bot_name, region=region, log_level=log_level, version=version)
+except Exception as e:
+    sys.exit(1)

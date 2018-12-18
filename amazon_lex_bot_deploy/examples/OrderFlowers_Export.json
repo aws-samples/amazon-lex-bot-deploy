@@ -1,0 +1,149 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "OrderFlowers",
+    "version": "1",
+    "intents": [
+      {
+        "description": "Intent to order a bouquet of flowers for pick up",
+        "rejectionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Okay, I will not place your order."
+            }
+          ]
+        },
+        "name": "OrderFlowers",
+        "version": "1",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "I would like to pick up flowers",
+          "I would like to order some flowers"
+        ],
+        "slots": [
+          {
+            "name": "FlowerType",
+            "description": "The type of flowers to pick up",
+            "slotConstraint": "Required",
+            "slotType": "FlowerTypes",
+            "slotTypeVersion": "1",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What type of flowers would you like to order?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "sampleUtterances": [
+              "I would like to order {FlowerType}"
+            ]
+          },
+          {
+            "name": "PickupDate",
+            "description": "The date to pick up the flowers",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.DATE",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What day do you want the {FlowerType} to be picked up?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "Pick up the {FlowerType} at {PickupTime} on what day?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2
+          },
+          {
+            "name": "PickupTime",
+            "description": "The time to pick up the flowers",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.TIME",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "At what time do you want the {FlowerType} to be picked up?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "Pick up the {FlowerType} at what time on {PickupDate}?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3
+          }
+        ],
+        "confirmationPrompt": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Okay, your {FlowerType} will be ready for pickup by {PickupTime} on {PickupDate}.  Does this sound okay?"
+            },
+            {
+              "contentType": "PlainText",
+              "content": "Okay, your {FlowerType} will be ready for pickup by {PickupTime} on {PickupDate}, and will cost [Price] dollars.  Does this sound okay?"
+            }
+          ],
+          "maxAttempts": 2
+        }
+      }
+    ],
+    "slotTypes": [
+      {
+        "description": "Types of flowers to pick up",
+        "name": "FlowerTypes",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "tulips"
+          },
+          {
+            "value": "lilies"
+          },
+          {
+            "value": "roses"
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      }
+    ],
+    "voiceId": "Salli",
+    "childDirected": false,
+    "locale": "en-US",
+    "idleSessionTTLInSeconds": 600,
+    "description": "Bot to order flowers on the behalf of a user",
+    "clarificationPrompt": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "I didn't understand you, what would you like to do?"
+        }
+      ],
+      "maxAttempts": 2
+    },
+    "abortStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, I am not able to assist at this time"
+        }
+      ]
+    }
+  }
+}

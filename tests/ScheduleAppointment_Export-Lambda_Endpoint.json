@@ -1,0 +1,185 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "ScheduleAppointment",
+    "version": "1",
+    "intents": [
+      {
+        "description": "Intent to book a dentist's appointment",
+        "rejectionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Okay, I will not schedule an appointment."
+            }
+          ]
+        },
+        "name": "MakeAppointment",
+        "version": "1",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "I would like to book an appointment",
+          "Book an appointment",
+          "Book a {AppointmentType}"
+        ],
+        "slots": [
+          {
+            "name": "AppointmentType",
+            "description": "The type of appointment being scheduled",
+            "slotConstraint": "Required",
+            "slotType": "AppointmentTypeValue",
+            "slotTypeVersion": "1",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What type of appointment would you like to schedule?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "sampleUtterances": [
+              "I would like a {AppointmentType}"
+            ]
+          },
+          {
+            "name": "Date",
+            "description": "The date to schedule the appointment",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.DATE",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "When should I schedule your appointment?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "When should I schedule your {AppointmentType}?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "{Time} on what day?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "A {AppointmentType} will take about [ExpectedDuration] minutes. What day works best for you?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2
+          },
+          {
+            "name": "Time",
+            "description": "The time to schedule the appointment",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.TIME",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "At what time should I schedule your appointment?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "At what time do you want to schedule the {AppointmentType}?"
+                },
+                {
+                  "contentType": "PlainText",
+                  "content": "At what time on {Date}?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3
+          }
+        ],
+        "confirmationPrompt": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "{Time} is available, should I go ahead and book your appointment?"
+            },
+            {
+              "contentType": "PlainText",
+              "content": "[formattedTime] is available, should I go ahead and book your {AppointmentType}?"
+            }
+          ],
+          "maxAttempts": 2
+        },
+        "dialogCodeHook": {
+          "uri": "arn:aws:lambda:us-west-2:0123456789012:function:a-function-name:dev",
+          "messageVersion": "1.0"
+        },
+        "fulfillmentActivity": {
+            "type": "CodeHook",
+            "codeHook": {
+                "uri": "arn:aws:lambda:us-west-2:0123456789012:function:a-function-name:dev",
+                "messageVersion": "1.0"
+            }
+        }
+      }
+    ],
+    "slotTypes": [
+      {
+        "description": "Type of dentist appointment to schedule",
+        "name": "AppointmentTypeValue",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "cleaning"
+          },
+          {
+            "value": "whitening"
+          },
+          {
+            "value": "testAgainForTheJinxOfIt"
+          },
+          {
+            "value": "testDeployBotCLICommandCheckIfThisIsIn"
+          },
+          {
+            "value": "root canal"
+          },
+          {
+            "value": "checkup"
+          },
+          {
+            "value": "crowning"
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      }
+    ],
+    "voiceId": "Salli",
+    "childDirected": false,
+    "locale": "en-US",
+    "idleSessionTTLInSeconds": 600,
+    "description": "Bot to book a dentist appointment",
+    "clarificationPrompt": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "I didn't understand you, what would you like me to do?"
+        }
+      ],
+      "maxAttempts": 2
+    },
+    "abortStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, I am not able to assist at this time"
+        }
+      ]
+    }
+  }
+}

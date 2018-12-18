@@ -1,0 +1,299 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "BookTrip",
+    "version": "1",
+    "intents": [
+      {
+        "description": "Intent to book a car on StayBooker",
+        "rejectionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Okay, I have cancelled your reservation in progress."
+            }
+          ]
+        },
+        "name": "BookCar",
+        "version": "1",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "Book a car",
+          "Reserve a car",
+          "Make a car reservation"
+        ],
+        "slots": [
+          {
+            "name": "CarType",
+            "description": "Type of car being reserved.",
+            "slotConstraint": "Required",
+            "slotType": "CarTypeValues",
+            "slotTypeVersion": "1",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What type of car would you like to rent?  Our most popular options are economy, midsize, and luxury"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 5,
+            "sampleUtterances": []
+          },
+          {
+            "name": "DriverAge",
+            "description": "Age of the driver during the car rental.",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.NUMBER",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "How old is the driver for this rental?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 4
+          },
+          {
+            "name": "PickUpCity",
+            "description": "City in which the car reservation is being made",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.US_CITY",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "In what city do you need to rent a car?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1
+          },
+          {
+            "name": "PickUpDate",
+            "description": "Date to start the rental",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.DATE",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What day do you want to start your rental?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2
+          },
+          {
+            "name": "ReturnDate",
+            "description": "Date of return.  Should be required when the flight is not one way.",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.DATE",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What day do you want to return the car?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3
+          }
+        ],
+        "confirmationPrompt": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Okay, I have you down for a {CarType} rental in {PickUpCity} from {PickUpDate} to {ReturnDate}.  Should I book the reservation?"
+            },
+            {
+              "contentType": "PlainText",
+              "content": "The price of this {CarType} rental in {PickUpCity} from {PickUpDate} to {ReturnDate} is [currentReservationPrice] dollars.  Shall I book the reservation?"
+            }
+          ],
+          "maxAttempts": 2
+        }
+      },
+      {
+        "description": "Intent to book a hotel on StayBooker",
+        "rejectionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Okay, I have cancelled your reservation in progress."
+            }
+          ]
+        },
+        "name": "BookHotel",
+        "version": "1",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "Book a hotel",
+          "I want a make hotel reservations",
+          "Book a {Nights} night stay in {Location}"
+        ],
+        "slots": [
+          {
+            "name": "CheckInDate",
+            "description": "Date of check-in",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.DATE",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What day do you want to check in?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2
+          },
+          {
+            "name": "Location",
+            "description": "Location of the city in which the hotel is located",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.US_CITY",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What city will you be staying in?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1
+          },
+          {
+            "name": "Nights",
+            "description": "Number of nights in the hotel stay.",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.NUMBER",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "How many nights will you be staying?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3
+          },
+          {
+            "name": "RoomType",
+            "description": "Enumeration of types of rooms that are offered by a hotel.",
+            "slotConstraint": "Required",
+            "slotType": "RoomTypeValues",
+            "slotTypeVersion": "1",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "What type of room would you like, queen, king or deluxe?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 4
+          }
+        ],
+        "confirmationPrompt": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Okay, I have you down for a {Nights} night stay in {Location} starting {CheckInDate}.  Shall I book the reservation?"
+            },
+            {
+              "contentType": "PlainText",
+              "content": "The price of this {Nights} night stay in {Location} from {CheckInDate} is [currentReservationPrice] dollars.  Shall I book the reservation?"
+            }
+          ],
+          "maxAttempts": 2
+        }
+      }
+    ],
+    "slotTypes": [
+      {
+        "description": "Enumeration representing possible types of a hotel room",
+        "name": "RoomTypeValues",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "deluxe"
+          },
+          {
+            "value": "queen"
+          },
+          {
+            "value": "king"
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      },
+      {
+        "description": "Enumeration representing possible types of cars available for rental",
+        "name": "CarTypeValues",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "standard"
+          },
+          {
+            "value": "full size"
+          },
+          {
+            "value": "midsize"
+          },
+          {
+            "value": "luxury"
+          },
+          {
+            "value": "economy"
+          },
+          {
+            "value": "minivan"
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      }
+    ],
+    "voiceId": "Salli",
+    "childDirected": false,
+    "locale": "en-US",
+    "idleSessionTTLInSeconds": 600,
+    "description": "Bot to make reservations necessary for a visit to a city",
+    "clarificationPrompt": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, what can I help you with?"
+        }
+      ],
+      "maxAttempts": 2
+    },
+    "abortStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, I am not able to assist at this time"
+        }
+      ]
+    }
+  }
+}
