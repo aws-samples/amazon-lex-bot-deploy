@@ -25,6 +25,11 @@ This sample code is made available under a modified MIT license. See the LICENSE
 Deploy and export Amazon Lex Schema bots easily.
 Maintain bots in source, share and use for CI/CD processes::
 
+    pip install amazon-lex-bot-deploy
+
+then::
+
+
     lex-bot-deploy --example BookTrip
 
 
@@ -36,6 +41,8 @@ To get the JSON schema easily::
 And you can specify which schema you would like to deploy obviously::
 
     lex-bot-deploy -s BookTrip_Export.json
+
+For an example how to use the API check the CLI command https://github.com/aws-samples/amazon-lex-bot-deploy/blob/master/bin/lex-bot-deploy
 
 * Free software: MIT-0 license (https://github.com/aws/mit-0)
 * Documentation: https://lex-bot-deploy.readthedocs.io.
