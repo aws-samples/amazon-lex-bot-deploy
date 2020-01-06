@@ -143,6 +143,7 @@ def lex_deploy(lex_schema_file=None, lex_alias=LATEST_ALIAS, lambda_endpoint=Non
         full_schema = json.load(lex_schema_file_input)
         schema_resource = full_schema['resource']
         voice_id = schema_resource['voiceId']
+        bot_ttl = schema_resource['idleSessionTTLInSeconds']
         bot_name = schema_resource['name']
         child_directed = schema_resource['childDirected']
 
@@ -226,7 +227,8 @@ def lex_deploy(lex_schema_file=None, lex_alias=LATEST_ALIAS, lambda_endpoint=Non
                                           clarificationPrompt=schema_resource['clarificationPrompt'],
                                           intents=bot_intents,
                                           processBehavior='BUILD',
-                                          voiceId=voice_id
+                                          voiceId=voice_id,
+                                          idleSessionTTLInSeconds=bot_ttl
                                           )
         logger.debug("put_bot_response: %s", put_bot_response)
 
