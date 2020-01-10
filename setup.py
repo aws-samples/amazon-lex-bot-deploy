@@ -54,6 +54,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/aws-samples/amazon_lex_bot_deploy',
-    version='0.1.6',
+    version='0.1.7',
     zip_safe=False,
 )
