@@ -19,7 +19,7 @@ if sys.argv[-1] == 'publish':
     os.system('twine upload dist/*')
     sys.exit()
 
-requirements = ['boto3', 'botocore', 'tenacity']
+requirements = ['boto3', 'botocore', 'requests', 'tenacity']
 
 setup_requirements = [ ]
 

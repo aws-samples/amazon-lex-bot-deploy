@@ -7,7 +7,7 @@ import io
 import re
 import botocore
 import os
-from botocore.vendored import requests
+import requests
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 DEFAULT_REGION = 'us-east-1'
